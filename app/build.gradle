@@ -1,0 +1,91 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace 'com.example.chordlab'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.example.chordlab"
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    packaging {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+    androidResources {
+        noCompress 'task', 'tflite'
+    }
+}
+
+dependencies {
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+
+    // CameraX
+    def camerax_version = "1.3.4"
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    implementation "androidx.camera:camera-view:${camerax_version}"
+
+    // AI ENGINE
+    implementation 'com.google.mediapipe:tasks-vision:0.10.14'
+
+    // TENSORFLOW LITE (Upgraded to 2.16.1 to officially resolve the Google namespace bug)
+    implementation('org.tensorflow:tensorflow-lite') {
+        version { strictly '2.16.1' }
+    }
+    implementation('org.tensorflow:tensorflow-lite-api') {
+        version { strictly '2.16.1' }
+    }
+
+    // --- NEW: REQUIRED FOR INTERNAL 2D SPECTROGRAM MATH ---
+    implementation('org.tensorflow:tensorflow-lite-select-tf-ops') {
+        version { strictly '2.16.1' }
+    }
+
+    // SAFE AUDIO ADDITION
+    // We use "exclude" to tell Android: "Don't bring your own TFLite, use the one I already have above."
+    implementation('org.tensorflow:tensorflow-lite-task-audio:0.4.4') {
+        exclude group: 'org.tensorflow', module: 'tensorflow-lite'
+    }
+
+    // --- NEW: TarsosDSP (Gradle-Compatible Fork from Maven Central) ---
+    implementation 'com.github.st-h:TarsosDSP:2.4.1'
+
+    // OpenCV
+    implementation(project(":opencv"))
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+}

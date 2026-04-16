@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><style name="FeatureTag">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:background">@drawable/tag_background</item>
+    <item name="android:paddingHorizontal">12dp</item>
+    <item name="android:paddingVertical">6dp</item>
+    <item name="android:textColor">#4A448A</item>
+    <item name="android:textSize">12sp</item>
+</style></resources>

@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/metronome_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <!-- ── TOP BAR ── -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:paddingStart="16dp"
+            android:paddingTop="40dp"
+            android:paddingEnd="16dp">
+
+            <!-- Back button -->
+            <LinearLayout
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="Back"
+                    android:src="@drawable/ic_arrow_back"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="Dashboard"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <!-- Logo -->
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="13dp"
+                android:contentDescription="Logo"
+                android:src="@drawable/ic_logo_whale" />
+        </RelativeLayout>
+
+        <!-- ── PAGE TITLE ── -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CHORDLAB"
+                android:textColor="@color/accent_pink"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:letterSpacing="0.2" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Metronome"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="Metronome icon"
+                    android:src="@drawable/ic_metronome" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ── TEMPO CARD ── -->
+        <androidx.cardview.widget.CardView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="#CC2D8BE8"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp">
+
+            <!-- Pink/magenta gradient overlay via background on inner layout -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/metronome_bg_tempo_card"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TEMPO"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:letterSpacing="0.3"
+                    android:textStyle="bold" />
+
+                <!-- BPM row -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnDecrease"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/metronome_bg_bpm_btn"
+                        android:text="−"
+                        android:textColor="#FFFFFF"
+                        android:textSize="22sp"
+                        android:padding="0dp" />
+
+                    <TextView
+                        android:id="@+id/tvBpm"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="120"
+                        android:textColor="#FFFFFF"
+                        android:textSize="64sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnIncrease"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/metronome_bg_bpm_btn"
+                        android:text="+"
+                        android:textColor="#FFFFFF"
+                        android:textSize="22sp"
+                        android:padding="0dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvTempoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Allegro"
+                    android:textColor="#FFD0F0"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ── BPM RANGE LABELS ── -->
+
+        <!-- ── SEEK BAR ── -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp">
+
+            <TextView
+                android:padding="10dp"
+                android:background="@drawable/metronome_bg_bpm_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="40 BPM"
+                android:textColor="@color/text_dark"
+                android:textSize="20sp" />
+
+            <TextView
+                android:padding="10dp"
+                android:background="@drawable/metronome_bg_bpm_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="220 BPM"
+                android:textColor="@color/text_dark"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <SeekBar
+            android:id="@+id/seekBarBpm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:max="180"
+            android:progress="80"
+            android:thumb="@drawable/metronome_seekbar_thumb"
+            android:progressDrawable="@drawable/metronome_seekbar_track" />
+
+        <!-- ── BEAT INDICATOR ── -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:text="BEAT"
+            android:textColor="@color/bg_light_purple"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/beat1"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/metronome_bg_beat_active" />
+
+            <View
+                android:id="@+id/beat2"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/metronome_bg_beat_inactive" />
+
+            <View
+                android:id="@+id/beat3"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/metronome_bg_beat_inactive" />
+
+            <View
+                android:id="@+id/beat4"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@drawable/metronome_bg_beat_inactive" />
+        </LinearLayout>
+
+        <!-- ── TIME SIGNATURE ── -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:text="TIME SIGNATURE"
+            android:textColor="@color/bg_light_purple"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSig44"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/metronome_bg_sig_normal"
+                android:text="4/4"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSig34"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/metronome_bg_sig_selected"
+                android:text="3/4"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSig68"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/metronome_bg_sig_normal"
+                android:text="6/8"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSig24"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/metronome_bg_sig_normal"
+                android:text="2/4"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- ── START BUTTON ── -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/metronome_bg_btn_start"
+            android:text="▶  START"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- ── TAP TEMPO BUTTON ── -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTapTempo"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/metronome_bg_btn_tap"
+            android:text="🎵  Tap Tempo"
+            android:textColor="@color/text_dark"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_splash"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splashscreen_bg">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_whale_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="80dp"/>
+
+    <ImageView
+        android:id="@+id/ivWaves"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.478" />
+
+    <LinearLayout
+        android:id="@+id/llHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivWaves">
+
+        <TextView
+            android:id="@+id/tvChordLab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ChordLab"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:textColor="#311B92"
+            app:layout_constraintTop_toBottomOf="@id/ivLogo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Do It Yourself!"
+            android:textColor="@color/bg_light_purple"
+            android:textSize="18sp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvHeadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Practice at Home!"
+        android:textColor="@color/bg_light_purple"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llHeader" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Explore and hone your musical talent without having to go outside!"
+        android:textColor="@color/bg_light_purple"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHeadline" />
+
+    <LinearLayout
+        android:id="@+id/llTags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDescription">
+
+        <TextView
+            android:background="@drawable/metronome_bg_bpm_indicator"
+            style="@style/FeatureTag"
+            android:text="🎸 Guitar" />
+
+        <TextView
+            android:background="@drawable/metronome_bg_bpm_indicator"
+            style="@style/FeatureTag"
+            android:layout_marginHorizontal="8dp"
+            android:text="🎶 Notes" />
+
+        <TextView
+            android:background="@drawable/metronome_bg_bpm_indicator"
+            style="@style/FeatureTag"
+            android:text="🎼 Chords" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnGetStarted"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:text="Get Started"
+        android:textAllCaps="false"
+        android:backgroundTint="#D81B60"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:cornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="60dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

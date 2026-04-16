@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E1E1E">
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/txtTopTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="CHORDLAB: GUITAR"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.05"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="@+id/btnBack" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cameraContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="24dp"
+        app:cardBackgroundColor="#000000"
+        app:layout_constraintHeight_percent="0.40"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/viewFinder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.example.chordlab.OverlayView
+            android:id="@+id/overlayView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:background="#FAF6F0"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cameraContainer">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="28dp"
+            android:paddingBottom="32dp">
+
+            <TextView
+                android:id="@+id/txtModeSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CURRENT CARD"
+                android:textColor="#F08118"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/txtCurrentChord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A Major"
+                android:textColor="#CD128B"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/txtModeSubtitle"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/txtScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Score: 0"
+                android:textColor="#2FA444"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@+id/txtModeSubtitle"
+                app:layout_constraintBottom_toBottomOf="@+id/txtModeSubtitle"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardDiagram"
+                android:layout_width="0dp"
+                android:layout_height="180dp"
+                android:layout_marginTop="16dp"
+                app:layout_goneMarginTop="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#CD128B"
+                app:strokeWidth="4dp"
+                app:layout_constraintWidth_percent="0.48"
+                app:layout_constraintTop_toBottomOf="@+id/txtScore"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/imgChordDiagram"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:scaleX="1.8"
+                    android:scaleY="1.7"
+                    tools:src="@drawable/a_major_guitar" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <ProgressBar
+                android:id="@+id/timerProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:progress="100"
+                android:progressDrawable="@drawable/circular_progress"
+                app:layout_constraintTop_toBottomOf="@+id/txtCurrentChord"
+                app:layout_constraintBottom_toBottomOf="@+id/cardDiagram"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/cardDiagram" />
+
+            <TextView
+                android:id="@+id/txtTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15.0s"
+                android:textColor="#DB062F"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/timerProgress"
+                app:layout_constraintEnd_toEndOf="@+id/timerProgress"
+                app:layout_constraintStart_toStartOf="@+id/timerProgress"
+                app:layout_constraintTop_toTopOf="@+id/timerProgress" />
+
+            <TextView
+                android:id="@+id/txtGuideTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Finger Guide"
+                android:textColor="#CD128B"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtCurrentChord" />
+
+            <TextView
+                android:id="@+id/txtGuideDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:lineSpacingExtra="4dp"
+                android:text="Instructions go here."
+                android:textColor="#4E342E"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/cardDiagram"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtGuideTitle" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/feedbackCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardDiagram">
+
+                <TextView
+                    android:id="@+id/txtFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#F8D77B"
+                    android:padding="16dp"
+                    android:text="Position your fingers..."
+                    android:textAlignment="center"
+                    android:textColor="#DB062F"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/practiceNavContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintTop_toBottomOf="@+id/feedbackCard"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <Button
+                    android:id="@+id/btnPrevChord"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#F08118"
+                    android:text="BACK"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnNextChord"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#CD128B"
+                    android:text="NEXT"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/instructionOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E61E1E1E"
+        android:visibility="gone"
+        android:elevation="20dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#FAF6F0"
+            app:cardCornerRadius="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.8">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💡 QUICK TIP"
+                    android:textColor="#F08118"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:letterSpacing="0.1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Show only your LEFT hand (fretting hand) to the camera."
+                    android:textAlignment="center"
+                    android:textColor="#3E3129"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Keep your right hand away from the view for better detection."
+                    android:textAlignment="center"
+                    android:textColor="#4E342E"
+                    android:textSize="14sp" />
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="20dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="#DB062F" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Tap to skip"
+                    android:textColor="#9E9E9E"
+                    android:textSize="11sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

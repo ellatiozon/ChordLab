@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Backgrounds -->
+    <color name="bg_light_purple">#F0EEFF</color>
+    <color name="header_start">#FF6EB4</color>   <!-- pink -->
+    <color name="header_end">#A78BFA</color>      <!-- purple -->
+
+    <!-- Accents -->
+    <color name="accent_pink">#E91E8C</color>
+    <color name="accent_green">#4CAF50</color>
+    <color name="accent_purple">#7C4DFF</color>
+
+    <!-- Text -->
+    <color name="text_dark">#1A1A2E</color>
+    <color name="text_gray">#888899</color>
+    <color name="text_white">#FFFFFF</color>
+
+    <!-- Cards -->
+    <color name="card_white">#FFFFFF</color>
+    <color name="card_selected_start">#FF6EB4</color>
+    <color name="card_selected_end">#C76EFF</color>
+    <color name="card_normal">#FFFFFF</color>
+    <color name="card_goal_bg">#F0FFF0</color>
+
+    <!-- Dots -->
+    <color name="dot_active">#E91E8C</color>
+    <color name="dot_inactive">#D0D0E0</color>
+
+    <!-- Progress bar -->
+    <color name="progress_bg">#F0E0F0</color>
+    <color name="progress_fill_start">#FF6EB4</color>
+    <color name="progress_fill_end">#C76EFF</color>
+</resources>
