@@ -66,4 +66,4 @@ To prevent false positives from background noise or fraction-of-a-second acousti
 To run this project locally:
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/ellatiozon/ChordLab](https://github.com/ellatiozon/ChordLab.git)
+   https://github.com/ellatiozon/ChordLab.git
