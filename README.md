@@ -22,9 +22,9 @@ This repository contains the core software architecture for the ChordLab capston
   * *UI/UX code for core features of Guitar, Ukulele, and Piano.*
 
 * **UI/UX Design:** [Aedrienne Patrice Lalimarmo](https://github.com/map-lali)
-  * *Wireframe
-  * *UI/UX design
-  * *Coded the User Interface (UI)
+  * *Architected the application's wireframes and user flow diagrams*
+  * *UI/UX design, establishing the visual hierarchy, color palettes, and interactive elements*
+  * *Coded the User Interface (UI)*
 
 * **Front End & Database:** [Alec Vincent Lacap](https://github.com/yuito0910)
   * *Coded the User Interface (UI)*
