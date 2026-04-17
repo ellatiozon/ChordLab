@@ -1,5 +1,18 @@
 package com.example.chordlab;
 
+/**
+ * ChordLab: Polyphonic Note and Chord Detection System
+ * * This file is a core component of the ChordLab backend architecture,
+ * handling AI processing, multimodal sensor fusion, and/or state management.
+ *
+ * @author Mikhaella Mari D. Tiozon
+ * @version 1.0
+ * @since 2026-04-17
+ * * Note: The algorithmic logic, machine learning integration, and database
+ * architecture contained within this file are the original intellectual
+ * property of the author.
+ */
+
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import com.google.mediapipe.tasks.components.containers.NormalizedLandmark;
@@ -12,20 +25,16 @@ import java.util.List;
 
 public class GuitarChordAnalyzer {
 
-    // Vision Model
     private static Interpreter visionTflite;
     private static String currentVisionModelPath = "";
 
-    // Audio Model
     private static Interpreter audioTflite;
     private static String currentAudioModelPath = "";
 
-    // 7 Classes based EXACTLY on your dataset export list
     private static final String[] GUITAR_LABELS = {
             "A Major", "A Minor", "C Major", "D Major", "D Minor", "E Minor", "G Major"
     };
 
-    // --- VISION INITIALIZATION ---
     private static void initVisionModel(Context context) {
         String modelPath = "guitar_chord_model_v1.tflite";
         if (visionTflite != null && currentVisionModelPath.equals(modelPath)) return;
@@ -45,9 +54,7 @@ public class GuitarChordAnalyzer {
         }
     }
 
-    // --- AUDIO INITIALIZATION ---
     private static void initAudioModel(Context context) {
-        // Change this to whatever you named your guitar audio model
         String modelPath = "guitar_audio_model_v1.tflite";
         if (audioTflite != null && currentAudioModelPath.equals(modelPath)) return;
 
@@ -66,7 +73,6 @@ public class GuitarChordAnalyzer {
         }
     }
 
-    // --- VISION DETECTION ---
     public static DetectionResult detectChord(List<NormalizedLandmark> landmarks, String targetChordName, Context context) {
         if (landmarks == null || landmarks.size() < 21) {
             return new DetectionResult("No Hand", "Show your hand clearly", false);
@@ -78,7 +84,6 @@ public class GuitarChordAnalyzer {
         float wristX = landmarks.get(0).x();
         float wristY = landmarks.get(0).y();
 
-        // Normalize wrist to (0,0)
         for (int i = 0; i < 21; i++) {
             input[0][i * 2] = landmarks.get(i).x() - wristX;
             input[0][i * 2 + 1] = landmarks.get(i).y() - wristY;
@@ -98,7 +103,6 @@ public class GuitarChordAnalyzer {
         return processResults(output[0], targetChordName, 0.50f);
     }
 
-    // --- AUDIO DETECTION ---
     public static DetectionResult detectAudioChord(float[][] audioInput, String targetChordName, Context context) {
         initAudioModel(context);
 

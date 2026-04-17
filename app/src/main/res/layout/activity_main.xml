@@ -124,7 +124,7 @@
 
                         <ImageView
                             android:layout_width="56dp"
-                            android:layout_height="56dp"
+                            android:layout_height="53dp"
                             android:src="@drawable/ic_piano" />
                     </LinearLayout>
 
@@ -161,7 +161,7 @@
                         android:layout_marginEnd="12dp"
                         android:gravity="center"
                         android:text="Guitar"
-                        android:textColor="@color/text_dark"
+                        android:textColor="@color/bg_light_purple"
                         android:textSize="13sp" />
 
                     <TextView
@@ -170,7 +170,7 @@
                         android:layout_marginEnd="12dp"
                         android:gravity="center"
                         android:text="Piano"
-                        android:textColor="@color/text_dark"
+                        android:textColor="@color/bg_light_purple"
                         android:textSize="13sp" />
 
                     <TextView
@@ -178,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Ukulele"
-                        android:textColor="@color/text_dark"
+                        android:textColor="@color/bg_light_purple"
                         android:textSize="13sp" />
                 </LinearLayout>
 

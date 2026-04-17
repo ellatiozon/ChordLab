@@ -1,5 +1,18 @@
 package com.example.chordlab;
 
+/**
+ * ChordLab: Polyphonic Note and Chord Detection System
+ * * This file is a core component of the ChordLab backend architecture,
+ * handling AI processing, multimodal sensor fusion, and/or state management.
+ *
+ * @author Mikhaella Mari D. Tiozon
+ * @version 1.0
+ * @since 2026-04-17
+ * * Note: The algorithmic logic, machine learning integration, and database
+ * architecture contained within this file are the original intellectual
+ * property of the author.
+ */
+
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.util.Log;
@@ -12,20 +25,16 @@ import java.util.LinkedList;
 public class PianoChordAnalyzer {
     private static Interpreter tflite;
 
-    // --- STATE TRACKING ---
     private static String currentLoadedFamily = "";
     private static String[] currentLabels;
 
-    // --- PROTOTYPE MODE: SNAPPY SLIDING WINDOW ---
     private static final int WINDOW_SIZE = 4;
     private static final int REQUIRED_VOTES = 2;
     private static LinkedList<String> slidingWindow = new LinkedList<>();
 
-    // --- DEMO UX: LONGER COOLDOWN ---
     private static long lastDetectionTime = 0;
     private static final long COOLDOWN_MS = 1500;
 
-    // --- RESTORED: THE 3 LABEL DICTIONARIES ---
     private static final String[] MAJOR_LABELS = {
             "A major", "B major", "Background Noise", "C major",
             "D major", "E major", "F major", "G major"
@@ -43,7 +52,6 @@ public class PianoChordAnalyzer {
 
     public static String detect(float[] audioBuffer, Context context, String targetFamily) {
 
-        // HOT-SWAP LOGIC: 3-Brain System
         if (tflite == null || !targetFamily.equals(currentLoadedFamily)) {
             loadBrain(context, targetFamily);
         }
@@ -68,7 +76,6 @@ public class PianoChordAnalyzer {
             input[0][i] = audioBuffer[i] / maxAmplitude;
         }
 
-        // Dynamically sizes the output array to 8 or 11 depending on the loaded brain!
         float[][] output = new float[1][currentLabels.length];
 
         try {
@@ -139,7 +146,6 @@ public class PianoChordAnalyzer {
         }
     }
 
-    // --- THE 3-WAY HOT-SWAP ENGINE ---
     private static void loadBrain(Context context, String targetFamily) {
         try {
             if (tflite != null) {
@@ -157,7 +163,7 @@ public class PianoChordAnalyzer {
                     modelFile = "piano_chords_flats_sharps_spectrogram.tflite";
                     currentLabels = ACCIDENTAL_LABELS;
                     break;
-                default: // "MAJOR"
+                default:
                     modelFile = "piano_chords_majors_spectrogram.tflite";
                     currentLabels = MAJOR_LABELS;
                     break;

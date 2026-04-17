@@ -1,5 +1,18 @@
 package com.example.chordlab;
 
+/**
+ * ChordLab: Polyphonic Note and Chord Detection System
+ * * This file is a core component of the ChordLab backend architecture,
+ * handling AI processing, multimodal sensor fusion, and/or state management.
+ *
+ * @author Mikhaella Mari D. Tiozon
+ * @version 1.0
+ * @since 2026-04-17
+ * * Note: The algorithmic logic, machine learning integration, and database
+ * architecture contained within this file are the original intellectual
+ * property of the author.
+ */
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -62,7 +75,6 @@ public class OverlayView extends View {
         int viewWidth = getWidth();
         int viewHeight = getHeight();
 
-        // 1. Calculate scaling to fit the camera feed into our UI box (Aspect Fill)
         scaleFactor = Math.max((float) viewWidth / imageWidth, (float) viewHeight / imageHeight);
         float scaledWidth = imageWidth * scaleFactor;
         float scaledHeight = imageHeight * scaleFactor;
@@ -73,10 +85,8 @@ public class OverlayView extends View {
         List<NormalizedLandmark> handLandmarks = results.landmarks().get(0);
 
         if (handLandmarks.size() >= 21) {
-            // 2. Draw the Skeleton first (Lines)
             drawSkeleton(canvas, handLandmarks);
 
-            // 3. Draw the Joints (Circles) using the EXACT SAME math
             for (NormalizedLandmark landmark : handLandmarks) {
                 canvas.drawCircle(
                         getCanvasX(landmark.x()),
@@ -88,9 +98,7 @@ public class OverlayView extends View {
         }
     }
 
-    // HELPER: Convert AI percentage to Screen Pixels (with Mirroring for Front Camera)
     private float getCanvasX(float normalizedX) {
-        // (1f - normalizedX) mirrors the horizontal axis for the selfie camera
         return ((1f - normalizedX) * imageWidth * scaleFactor) + leftOffset;
     }
 

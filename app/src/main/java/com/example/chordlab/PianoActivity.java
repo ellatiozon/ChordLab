@@ -1,5 +1,18 @@
 package com.example.chordlab;
 
+/**
+ * ChordLab: Polyphonic Note and Chord Detection System
+ * * This file is a core component of the ChordLab backend architecture,
+ * handling AI processing, multimodal sensor fusion, and/or state management.
+ *
+ * @author Mikhaella Mari D. Tiozon
+ * @version 1.0
+ * @since 2026-04-17
+ * * Note: The algorithmic logic, machine learning integration, and database
+ * architecture contained within this file are the original intellectual
+ * property of the author.
+ */
+
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -99,15 +112,13 @@ public class PianoActivity extends AppCompatActivity {
         showSessionInstructions();
     }
 
+    //For alert instructions
     private void showSessionInstructions() {
-        // 1. Show the overlay
         instructionOverlay.setVisibility(View.VISIBLE);
         instructionOverlay.setAlpha(1f);
 
-        // 2. Allow "Tap to Skip"
         instructionOverlay.setOnClickListener(v -> hideInstructions());
 
-        // 3. Auto-hide after 3.5 seconds (giving extra time for the 2 instructions)
         new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
             if (instructionOverlay.getVisibility() == View.VISIBLE) {
                 hideInstructions();
@@ -159,7 +170,6 @@ public class PianoActivity extends AppCompatActivity {
         txtTarget.setText("Select Note or Chord");
         imgPianoDiagram.setVisibility(View.INVISIBLE);
 
-        // Hide all Slot A and Slot B elements initially
         timerProgress.setVisibility(View.GONE);
         txtTimer.setVisibility(View.GONE);
         txtScore.setVisibility(View.GONE);
@@ -194,11 +204,9 @@ public class PianoActivity extends AppCompatActivity {
     }
 
     private void setupModeSelection() {
-        // Note Mode Selection
         cardNote.setOnClickListener(v -> {
             isChordMode = false;
 
-            // Swap Gradients
             bgNoteGradient.setBackgroundResource(R.drawable.active_gradient);
             bgChordGradient.setBackgroundResource(R.drawable.inactive_gradient);
 
@@ -206,11 +214,9 @@ public class PianoActivity extends AppCompatActivity {
             revealGameUI();
         });
 
-        // Chord Mode Selection
         cardChord.setOnClickListener(v -> {
             isChordMode = true;
 
-            // Swap Gradients
             bgChordGradient.setBackgroundResource(R.drawable.active_gradient);
             bgNoteGradient.setBackgroundResource(R.drawable.inactive_gradient);
 
@@ -281,7 +287,6 @@ public class PianoActivity extends AppCompatActivity {
         txtFeedback.setBackgroundColor(Color.parseColor("#F8D77B"));
         txtFeedback.setTextColor(Color.parseColor("#DB062F"));
 
-        // ---> THE FIX: Wake the AI back up for the new card! <---
         isPausedForNextCard = false;
         hasDinged = false;
 
@@ -326,7 +331,6 @@ public class PianoActivity extends AppCompatActivity {
     }
 
     private int getTargetDrawable(String targetName) {
-        // 1. If we are in Note Mode, map strictly to your uploaded filenames
         if (isChordMode != null && !isChordMode) {
             switch (targetName) {
                 case "A": return R.drawable.a_note;
@@ -345,9 +349,7 @@ public class PianoActivity extends AppCompatActivity {
             }
         }
 
-        // 2. CHORD MODE MAPPING (Explicitly mapped to prevent crashes)
         switch (targetName) {
-            // --- MAJOR CHORDS ---
             case "C major":  return R.drawable.c_major_piano;
             case "C# major": return R.drawable.csharp_major_piano;
             case "D major":  return R.drawable.d_major_piano;
@@ -361,7 +363,6 @@ public class PianoActivity extends AppCompatActivity {
             case "Bb major": return R.drawable.bflat_major_piano;
             case "B major":  return R.drawable.b_major_piano;
 
-            // --- MINOR CHORDS ---
             case "C minor":  return R.drawable.c_minor_piano;
             case "C# minor": return R.drawable.csharp_minor_piano;
             case "D minor":  return R.drawable.d_minor_piano;
@@ -375,7 +376,7 @@ public class PianoActivity extends AppCompatActivity {
             case "Bb minor": return R.drawable.bflat_minor_piano;
             case "B minor":  return R.drawable.b_minor_piano;
 
-            default: return R.drawable.c_major_piano; // Safe fallback
+            default: return R.drawable.c_major_piano;
         }
     }
 
@@ -383,13 +384,8 @@ public class PianoActivity extends AppCompatActivity {
         if (text == null || currentTarget == null || currentTarget.isEmpty()) return;
 
         runOnUiThread(() -> {
-            // CLEANER COMPARISON:
-            // For Chords: "C major" should match "C major"
-            // For Notes: "C" should match "C"
             boolean isMatch = text.equalsIgnoreCase(currentTarget);
 
-            // Fallback: If the analyzer returns "C" but target is "C major",
-            // or analyzer returns "C major" but target is "C"
             if (!isMatch && isChordMode != null) {
                 if (isChordMode) {
                     isMatch = text.toLowerCase().contains(currentTarget.toLowerCase().split(" ")[0]);
@@ -411,7 +407,6 @@ public class PianoActivity extends AppCompatActivity {
                     hasDinged = true;
                 }
             } else {
-                // Keep the "Listening" feedback active so the user knows the AI is awake
                 if (!isPausedForNextCard && !hasDinged) {
                     txtFeedback.setText("Listening for " + currentTarget + "...");
                     txtFeedback.setBackgroundColor(Color.parseColor("#F8D77B"));
@@ -430,8 +425,6 @@ public class PianoActivity extends AppCompatActivity {
             db.incrementChordsLearned(username);
         }
     }
-
-    // Audio recording thread and FFT logic remains consistent with your hardware setup...
     private void startAudioThread() { if (!isListening) { isListening = true; audioThread = new Thread(this::audioLoop); audioThread.start(); } }
 
     private void audioLoop() {
@@ -439,7 +432,6 @@ public class PianoActivity extends AppCompatActivity {
         float[] aiFullBuffer = new float[AI_BUFFER_SIZE];
         int aiPtr = 0;
 
-        // 1. Initialize AudioRecord with error handling
         try {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -457,37 +449,29 @@ public class PianoActivity extends AppCompatActivity {
             return;
         }
 
-        // 2. Initialize FFT for Note Mode
         be.tarsos.dsp.util.fft.FFT fft = new be.tarsos.dsp.util.fft.FFT(FFT_SIZE);
 
-        // 3. Main Listening Loop
         while (isListening) {
             int read = audioRecord.read(audioBuffer, 0, FFT_SIZE);
             if (read > 0) {
                 float[] frame = new float[FFT_SIZE];
                 float sumSq = 0;
 
-                // Convert PCM16 to Floats and calculate Volume (RMS)
                 for (int i = 0; i < read; i++) {
                     frame[i] = audioBuffer[i] / 32768.0f;
                     sumSq += frame[i] * frame[i];
 
-                    // Fill the sliding AI buffer for chord detection
                     aiFullBuffer[aiPtr] = frame[i];
                     aiPtr = (aiPtr + 1) % AI_BUFFER_SIZE;
                 }
 
                 float rms = (float) Math.sqrt(sumSq / read);
 
-                // 4. Processing Trigger (Volume Threshold + Cooldown)
-                // 4. Processing Trigger (Volume Threshold + Cooldown)
                 if (System.currentTimeMillis() >= deafUntilMs && rms > 0.01f && !isPausedForNextCard) {
 
                     if (isChordMode != null && isChordMode) {
-                        // --- 3-BRAIN DYNAMIC SWAPPING ---
                         String targetFamily = "MAJOR"; // Default
 
-                        // Parse the string to decide which of the 3 brains to load
                         String lowerTarget = currentTarget.toLowerCase();
                         if (lowerTarget.contains("#") || lowerTarget.contains("sharp") ||
                                 lowerTarget.contains("b") || lowerTarget.contains("flat")) {
@@ -496,12 +480,10 @@ public class PianoActivity extends AppCompatActivity {
                             targetFamily = "MINOR";
                         }
 
-                        // Send the audio and the requested Brain name
                         String detectedChord = PianoChordAnalyzer.detect(aiFullBuffer, PianoActivity.this, targetFamily);
                         updateUIAndSpeak(detectedChord);
 
                     } else if (isChordMode != null) {
-                        // --- NOTE MODE: FFT PITCH DETECTION ---
                         float[] amplitudes = new float[FFT_SIZE / 2];
                         fft.forwardTransform(frame);
                         fft.modulus(frame, amplitudes);
@@ -513,7 +495,6 @@ public class PianoActivity extends AppCompatActivity {
             }
         }
 
-        // 4. Cleanup when isListening becomes false
         try {
             if (audioRecord != null) {
                 audioRecord.stop();

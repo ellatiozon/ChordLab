@@ -1,5 +1,18 @@
 package com.example.chordlab;
 
+/**
+ * ChordLab: Polyphonic Note and Chord Detection System
+ * * This file is a core component of the ChordLab backend architecture,
+ * handling AI processing, multimodal sensor fusion, and/or state management.
+ *
+ * @author Mikhaella Mari D. Tiozon
+ * @version 1.0
+ * @since 2026-04-17
+ * * Note: The algorithmic logic, machine learning integration, and database
+ * architecture contained within this file are the original intellectual
+ * property of the author.
+ */
+
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import com.google.mediapipe.tasks.components.containers.NormalizedLandmark;
@@ -11,22 +24,17 @@ import java.util.List;
 
 public class ChordAnalyzer {
 
-    // Vision Model
     private static Interpreter visionTflite;
     private static String currentVisionModelPath = "";
 
-    // Audio Model
     private static Interpreter audioTflite;
     private static String currentAudioModelPath = "";
 
-    // IMPORTANT: Make sure your TM Audio model classes match this order exactly!
-    // (If you added "Background Noise", put it at the very end or beginning based on your TM export)
     private static final String[] UKULELE_LABELS = {
             "A Major", "A Minor", "C Major", "C Minor", "D Major",
             "D Minor", "E Minor", "F Major", "G Major", "G Minor"
     };
 
-    // --- VISION INITIALIZATION ---
     private static void initVisionModel(Context context) {
         String modelPath = "ukulele_chord_model.tflite";
         if (visionTflite != null && currentVisionModelPath.equals(modelPath)) return;
@@ -46,7 +54,6 @@ public class ChordAnalyzer {
         }
     }
 
-    // --- AUDIO INITIALIZATION ---
     private static void initAudioModel(Context context) {
         String modelPath = "ukulele_audio_model.tflite"; // Name of your TM Audio export
         if (audioTflite != null && currentAudioModelPath.equals(modelPath)) return;
@@ -66,7 +73,6 @@ public class ChordAnalyzer {
         }
     }
 
-    // --- VISION DETECTION ---
     public static DetectionResult detectChord(List<NormalizedLandmark> landmarks, String targetChordName, String instrument, Context context) {
         if (landmarks == null || landmarks.size() < 21) {
             return new DetectionResult("No Hand", "Show your hand clearly", false);
@@ -89,30 +95,23 @@ public class ChordAnalyzer {
         return processResults(output[0], targetChordName, 0.50f);
     }
 
-    // --- AUDIO DETECTION ---
-    // TM Audio models usually take a float array of 1-second audio samples (15600 length for 16kHz)
     public static DetectionResult detectAudioChord(float[][] audioInput, String targetChordName, Context context) {
         initAudioModel(context);
 
-        // Output array size depends on how many classes you trained in TM (e.g., 10 chords + 1 background)
-        // Adjust the size if you have a "Background Noise" class!
         float[][] output = new float[1][UKULELE_LABELS.length];
 
         if (audioTflite != null) {
             try {
                 audioTflite.run(audioInput, output);
             } catch (Exception e) {
-                // Failsafe in case the input shape from the mic doesn't perfectly match TM's expected shape yet
                 e.printStackTrace();
                 return new DetectionResult("Audio Error", "Waiting for sound...", false);
             }
         }
 
-        // Higher threshold for audio (0.60) so it doesn't trigger on random noises
         return processResults(output[0], targetChordName, 0.60f);
     }
 
-    // --- HELPER TO FIND WINNER ---
     private static DetectionResult processResults(float[] probabilities, String targetChordName, float threshold) {
         int maxIdx = -1;
         float maxProb = 0.0f;

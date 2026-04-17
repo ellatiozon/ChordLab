@@ -1,5 +1,18 @@
 package com.example.chordlab;
 
+/**
+ * ChordLab: Polyphonic Note and Chord Detection System
+ * * This file is a core component of the ChordLab backend architecture,
+ * handling AI processing, multimodal sensor fusion, and/or state management.
+ *
+ * @author Mikhaella Mari D. Tiozon
+ * @version 1.0
+ * @since 2026-04-17
+ * * Note: The algorithmic logic, machine learning integration, and database
+ * architecture contained within this file are the original intellectual
+ * property of the author.
+ */
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -18,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout cardGuitar, cardPiano, cardUkelele;
     private LinearLayout selectedInstrumentCard = null;
 
-    // --- OUR BACKEND STATE TRACKER ---
     private String selectedInstrument = "Guitar";
 
     private DatabaseHelper myDb;
@@ -28,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Using our maintained file name!
         setContentView(R.layout.activity_main);
 
         myDb = new DatabaseHelper(this);
@@ -47,12 +58,10 @@ public class MainActivity extends AppCompatActivity {
             tvWelcomeName.setText("Welcome, " + username + "!");
         }
 
-        // Instrument Selection Listeners
         cardGuitar.setOnClickListener(v -> selectInstrument(cardGuitar, "Guitar"));
         cardPiano.setOnClickListener(v  -> selectInstrument(cardPiano,  "Piano"));
         cardUkelele.setOnClickListener(v -> selectInstrument(cardUkelele, "Ukulele"));
 
-        // --- OUR BACKEND ROUTING LOGIC ---
         findViewById(R.id.cardPracticeMode).setOnClickListener(v -> {
             flashAndNavigate((LinearLayout) v, () -> startSession("PRACTICE"));
         });
@@ -82,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         applyProgressDisplay();
     }
 
-    // --- OUR SECURE BACKEND SESSION LAUNCHER ---
     private void startSession(String mode) {
         if (selectedInstrument.isEmpty()) {
             Toast.makeText(this, "Please select an instrument first!", Toast.LENGTH_SHORT).show();
@@ -90,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Class<?> targetActivity;
-        // Dynamically route based on the instrument they tapped!
         switch (selectedInstrument.toUpperCase()) {
             case "GUITAR":
                 targetActivity = GuitarActivity.class;
@@ -108,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // --- UI DESIGNER's ANIMATIONS & DATABASE SAVING ---
     private void selectInstrument(LinearLayout card, String instrumentName) {
         if (selectedInstrumentCard != null) {
             selectedInstrumentCard.setBackgroundResource(R.drawable.bg_instrument_normal);
@@ -116,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
         card.setBackgroundResource(R.drawable.bg_instrument_selected);
         selectedInstrumentCard = card;
 
-        // Update our backend variable
         selectedInstrument = instrumentName;
 
         SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);

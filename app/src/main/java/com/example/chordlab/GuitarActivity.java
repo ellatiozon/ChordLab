@@ -1,5 +1,18 @@
 package com.example.chordlab;
 
+/**
+ * ChordLab: Polyphonic Note and Chord Detection System
+ * * This file is a core component of the ChordLab backend architecture,
+ * handling AI processing, multimodal sensor fusion, and/or state management.
+ *
+ * @author Mikhaella Mari D. Tiozon
+ * @version 1.0
+ * @since 2026-04-17
+ * * Note: The algorithmic logic, machine learning integration, and database
+ * architecture contained within this file are the original intellectual
+ * property of the author.
+ */
+
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -82,14 +95,11 @@ public class GuitarActivity extends AppCompatActivity implements HandLandmarkerH
     }
 
     private void showSessionInstructions() {
-        // 1. Make the overlay visible immediately
         binding.instructionOverlay.setVisibility(View.VISIBLE);
         binding.instructionOverlay.setAlpha(1f);
 
-        // 2. Allow user to tap the screen to skip the 3-second wait
         binding.instructionOverlay.setOnClickListener(v -> hideInstructions());
 
-        // 3. Auto-hide after 3 seconds if they don't tap
         new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
             if (binding.instructionOverlay.getVisibility() == View.VISIBLE) {
                 hideInstructions();
@@ -103,8 +113,6 @@ public class GuitarActivity extends AppCompatActivity implements HandLandmarkerH
                 .setDuration(400)
                 .withEndAction(() -> {
                     binding.instructionOverlay.setVisibility(View.GONE);
-                    // Trigger the mode start (like starting the flashcard timer)
-                    // only AFTER the instructions are gone.
                 });
     }
 
@@ -293,11 +301,20 @@ public class GuitarActivity extends AppCompatActivity implements HandLandmarkerH
             });
         } else {
             matchStartTime = 0;
-            runOnUiThread(() -> binding.overlayView.setResults(null));
+            runOnUiThread(() -> {
+                binding.overlayView.setResults(null);
+
+                if (!isChordLocked) {
+                    String target = guitarChords[currentChordIndex];
+                    binding.txtFeedback.setText("Looking for " + target + "...");
+                    binding.txtFeedback.setBackgroundColor(Color.parseColor("#E1F5FE"));
+                    binding.txtFeedback.setTextColor(Color.parseColor("#0277BD"));
+                    hasDinged = false;
+                }
+            });
         }
     }
 
-    // --- NEW METHOD: AWARD XP & CHORDS LEARNED ---
     private void awardXPAndChords() {
         SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
         String username = prefs.getString("username", "");

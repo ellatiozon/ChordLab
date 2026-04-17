@@ -1,4 +1,16 @@
 package com.example.chordlab;
+/**
+ * ChordLab: Polyphonic Note and Chord Detection System
+ * * This file is a core component of the ChordLab backend architecture,
+ * handling AI processing, multimodal sensor fusion, and/or state management.
+ *
+ * @author Mikhaella Mari D. Tiozon
+ * @version 1.0
+ * @since 2026-04-17
+ * * Note: The algorithmic logic, machine learning integration, and database
+ * architecture contained within this file are the original intellectual
+ * property of the author.
+ */
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -19,8 +31,6 @@ public class HandLandmarkerHelper {
     private final Context context;
     private final LandmarkerListener listener;
 
-    // This interface lets the Helper shout back to the Activity when it finds a hand
-// 1. Update the listener interface to include width and height
     public interface LandmarkerListener {
         void onError(String error);
         void onResults(HandLandmarkerResult result, long inferenceTime, int imageWidth, int imageHeight);
@@ -34,12 +44,10 @@ public class HandLandmarkerHelper {
 
     private void setupHandLandmarker() {
         try {
-            // 1. Point to the brain file we downloaded
             BaseOptions baseOptions = BaseOptions.builder()
                     .setModelAssetPath("hand_landmarker.task")
                     .build();
 
-            // 2. Configure the AI for live video (LIVE_STREAM)
             HandLandmarker.HandLandmarkerOptions options = HandLandmarker.HandLandmarkerOptions.builder()
                     .setBaseOptions(baseOptions)
                     .setRunningMode(RunningMode.LIVE_STREAM)
@@ -62,32 +70,22 @@ public class HandLandmarkerHelper {
     public void detectLiveStream(ImageProxy imageProxy) {
         if (handLandmarker == null) return;
 
-        // MediaPipe requires a timestamp for live video streams
         long frameTime = SystemClock.uptimeMillis();
 
-        // Convert the camera frame to a format MediaPipe understands (Bitmap -> MPImage)
         Bitmap bitmap = imageProxy.toBitmap();
 
-        // Rotate the image to match the phone's orientation
         Matrix matrix = new Matrix();
         matrix.postRotate(imageProxy.getImageInfo().getRotationDegrees());
         Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
         MPImage mpImage = new BitmapImageBuilder(rotatedBitmap).build();
 
-        // Send it to the brain asynchronously (so it doesn't freeze the screen)
         handLandmarker.detectAsync(mpImage, frameTime);
     }
-
-    // MediaPipe triggers this when it finishes analyzing a frame
-    // MediaPipe triggers this when it finishes analyzing a frame
-    // 2. Update the result method to pass the image dimensions
     private void returnLivestreamResult(HandLandmarkerResult result, MPImage image) {
         long inferenceTime = SystemClock.uptimeMillis() - result.timestampMs();
-        // Pass image.getWidth() and image.getHeight() back to the Activity
         listener.onResults(result, inferenceTime, image.getWidth(), image.getHeight());
     }
-    // MediaPipe triggers this if something goes wrong
     private void returnLivestreamError(RuntimeException error) {
         listener.onError(error.getMessage());
     }
